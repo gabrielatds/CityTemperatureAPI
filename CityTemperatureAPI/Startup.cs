@@ -1,3 +1,5 @@
+using CityTemperatureAPI.Repositories;
+using CityTemperatureAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -65,6 +67,8 @@ namespace CityTemperatureAPI
 
 
             services.AddControllers();
+            //Injeção de dependência
+            services.AddScoped<ICidadeRepository, CidadeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

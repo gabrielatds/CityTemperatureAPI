@@ -12,5 +12,6 @@ namespace CityTemperatureAPI.Models
         public decimal TempAtual { get; set; }
         public decimal TempMax { get; set; }
         public decimal TempMin { get; set; }
+        public DateTime LastConsult { get; set; }
     }
 }
