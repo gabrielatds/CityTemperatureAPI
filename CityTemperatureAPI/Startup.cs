@@ -1,5 +1,6 @@
 using CityTemperatureAPI.Repositories;
 using CityTemperatureAPI.Repositories.Interfaces;
+using CityTemperatureAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -65,8 +66,8 @@ namespace CityTemperatureAPI
 
             });
 
-
             services.AddControllers();
+            services.AddAutoMapper(typeof(MappingProfile));
             //Injeção de dependência
             services.AddScoped<ICidadeRepository, CidadeRepository>();
         }
