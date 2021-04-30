@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperatureAPI", "CityTemperatureAPI\CityTemperatureAPI.csproj", "{39186BEE-B857-48EC-A42C-9EA7D95D0CF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI", "CityTemperatureAPI\CityTemperatureAPI.csproj", "{39186BEE-B857-48EC-A42C-9EA7D95D0CF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D7C91A7A-1FEE-4424-8A30-38D424A7E96C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTempreatureAPI.Application.Tests", "CityTempreatureAPI.Application.Tests\CityTempreatureAPI.Application.Tests.csproj", "{EF69E861-9BC3-4190-AD58-756772DDD4FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{39186BEE-B857-48EC-A42C-9EA7D95D0CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39186BEE-B857-48EC-A42C-9EA7D95D0CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39186BEE-B857-48EC-A42C-9EA7D95D0CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF69E861-9BC3-4190-AD58-756772DDD4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF69E861-9BC3-4190-AD58-756772DDD4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF69E861-9BC3-4190-AD58-756772DDD4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF69E861-9BC3-4190-AD58-756772DDD4FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF69E861-9BC3-4190-AD58-756772DDD4FD} = {D7C91A7A-1FEE-4424-8A30-38D424A7E96C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E2F1FB9-3AA4-4BD3-9A1C-F8E156612D50}

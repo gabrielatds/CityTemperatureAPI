@@ -11,7 +11,7 @@ namespace CityTemperatureAPI.Services.Interfaces
         Task<Main> GetByName(string nome);
         Task<int> Add(CidadeDto cidade);
         Task<int> Update(CidadeDto cidade);
-        Task<bool> VerifyLastConsult(CidadeDto cidade);
+        Task<bool> VerifyLastConsult(string nome);
         Task<bool> CheckIfExists(string nome);
     }
 }

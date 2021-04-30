@@ -59,34 +59,48 @@ namespace CityTemperatureAPI.Services
         {
             if (!string.IsNullOrEmpty(nome))
             {
-                var cidadeAdapter = RestService.For<ICidadeAdapter>("http://api.openweathermap.org/data/2.5");
-                var response = await cidadeAdapter.GetByName(nome);
-                var mainTemperatures = response.Main;
-
-                if (mainTemperatures != null)
+                if (await VerifyLastConsult(nome))
                 {
-                    var cidadeDto = new CidadeDto
-                    {
-                        Nome = nome,
-                        TempAtual = mainTemperatures.Temp,
-                        TempMax = mainTemperatures.Temp_Max,
-                        TempMin = mainTemperatures.Temp_Min,
-                    };
+                    var cidadeAdapter = RestService.For<ICidadeAdapter>("http://api.openweathermap.org/data/2.5");
+                    var response = await cidadeAdapter.GetByName(nome);
+                    var mainTemperatures = response.Main;
 
-                    if (await CheckIfExists(nome))
+                    if (mainTemperatures != null)
                     {
-                        await Update(cidadeDto);
+                        var cidadeDto = new CidadeDto
+                        {
+                            Nome = nome,
+                            TempAtual = mainTemperatures.Temp,
+                            TempMax = mainTemperatures.Temp_Max,
+                            TempMin = mainTemperatures.Temp_Min,
+                        };
+
+                        if (await CheckIfExists(nome))
+                        {
+                            await Update(cidadeDto);
+                            return mainTemperatures;
+                        }
+                        else
+                        {
+                            await Add(cidadeDto);
+                            return mainTemperatures;
+                        }
                     }
                     else
                     {
-                        await Add(cidadeDto);
+                        throw new ArgumentNullException();
                     }
-
-                    return mainTemperatures;
                 }
                 else
                 {
-                    throw new ArgumentNullException();
+                    var cidadeModel = await _repository.GetByName(nome);
+                    var mainTemperatures = new Main
+                    {
+                        Temp = cidadeModel.TempAtual,
+                        Temp_Max = cidadeModel.TempMax,
+                        Temp_Min = cidadeModel.TempMin,
+                    };
+                    return mainTemperatures;
                 }
 
             }
@@ -98,38 +112,41 @@ namespace CityTemperatureAPI.Services
 
         public async Task<int> Update(CidadeDto cidade)
         {
-            if (cidade != null && await CheckIfExists(cidade.Nome))
-            {
-                try
-                {
-                    var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
-                    cidadeModel.LastConsult = DateTime.Now;
-                    return await _repository.Update(cidadeModel);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException();
-            }
-        }
 
-        public async Task<bool> VerifyLastConsult(CidadeDto cidade)
-        {
-            if (cidade != null && await CheckIfExists(cidade.Nome))
+            try
             {
                 var cidadeModel = await _repository.GetByName(cidade.Nome);
-                if (DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
+                cidadeModel.LastConsult = DateTime.Now;
+                return await _repository.Update(cidadeModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        public async Task<bool> VerifyLastConsult(string nome)
+        {
+            if (!string.IsNullOrEmpty(nome))
+            {
+                if (await CheckIfExists(nome))
                 {
-                    return true;
+                    var cidadeModel = await _repository.GetByName(nome);
+                    if (DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    return false;
+                    return true;
                 }
+
             }
             else
             {
