@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI", "CityT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D7C91A7A-1FEE-4424-8A30-38D424A7E96C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTempreatureAPI.Application.Tests", "CityTempreatureAPI.Application.Tests\CityTempreatureAPI.Application.Tests.csproj", "{EF69E861-9BC3-4190-AD58-756772DDD4FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTempreatureAPI.Application.Tests", "CityTempreatureAPI.Application.Tests\CityTempreatureAPI.Application.Tests.csproj", "{EF69E861-9BC3-4190-AD58-756772DDD4FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CityTemperatureAPI.Domain", "CityTemperatureAPI.Domain", "{29F2ADBD-6134-4DAE-A798-A95C2CEBBE1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{05030F25-7269-41A3-A401-3DF7B1232C91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{718FC3FD-52B7-45B8-B963-A2E31F94D74E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{953CFC95-431C-4B64-9441-AD639E9E128E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +37,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EF69E861-9BC3-4190-AD58-756772DDD4FD} = {D7C91A7A-1FEE-4424-8A30-38D424A7E96C}
+		{05030F25-7269-41A3-A401-3DF7B1232C91} = {29F2ADBD-6134-4DAE-A798-A95C2CEBBE1B}
+		{718FC3FD-52B7-45B8-B963-A2E31F94D74E} = {29F2ADBD-6134-4DAE-A798-A95C2CEBBE1B}
+		{953CFC95-431C-4B64-9441-AD639E9E128E} = {29F2ADBD-6134-4DAE-A798-A95C2CEBBE1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E2F1FB9-3AA4-4BD3-9A1C-F8E156612D50}

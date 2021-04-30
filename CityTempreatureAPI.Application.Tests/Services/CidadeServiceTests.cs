@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+using CityTemperatureAPI.Dtos;
 using CityTemperatureAPI.Repositories.Interfaces;
 using CityTemperatureAPI.Services;
 using CityTemperatureAPI.Services.Interfaces;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace CityTempreatureAPI.Application.Tests.Services
@@ -22,9 +21,16 @@ namespace CityTempreatureAPI.Application.Tests.Services
         }
 
         [Fact]
-        public void Add_AdicionandoIdExistente()
+        public async void Add_AdicionandoIdExistente()
         {
-            Assert.True(true);
+            await Assert.ThrowsAsync<Exception>(() =>  _cidadeService.Add(new CidadeDto
+            {
+                Id = 6,
+                TempAtual = 200,
+                TempMax = 200,
+                TempMin = 200,
+                Nome = "Belo Horizonte",
+            }));
         }
 
     }
