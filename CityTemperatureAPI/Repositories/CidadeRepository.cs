@@ -32,9 +32,9 @@ namespace CityTemperatureAPI.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckIfExists(int id)
+        public async Task<bool> CheckIfExists(string nome)
         {
-            return await _context.Cidades.AnyAsync(a => a.Id == id);
+            return await _context.Cidades.AnyAsync(a => a.Nome == nome);
         }
     }
 }

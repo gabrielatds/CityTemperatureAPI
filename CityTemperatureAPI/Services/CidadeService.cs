@@ -34,7 +34,6 @@ namespace CityTemperatureAPI.Services
                 {
                     throw new Exception(ex.Message);
                 }
-
             }
             else
             {
@@ -42,11 +41,11 @@ namespace CityTemperatureAPI.Services
             }
         }
 
-        public async Task<bool> CheckIfExists(int id)
+        public async Task<bool> CheckIfExists(string name)
         {
             try
             {
-                return await _repository.CheckIfExists(id);
+                return await _repository.CheckIfExists(name);
             }
             catch (Exception ex)
             {
@@ -56,7 +55,7 @@ namespace CityTemperatureAPI.Services
 
         public async Task<CidadeDto> GetByName(string nome)
         {
-            if(nome.Length > 0)
+            if(nome.Length > 0 && await CheckIfExists(nome))
             {
                 try
                 {
@@ -77,7 +76,7 @@ namespace CityTemperatureAPI.Services
 
         public async Task<int> Update(CidadeDto cidade)
         {
-            if (cidade != null)
+            if (cidade != null && await CheckIfExists(cidade.Nome))
             {
                 try
                 {
@@ -98,7 +97,7 @@ namespace CityTemperatureAPI.Services
 
         public async Task<bool> VerifyLastConsult(CidadeDto cidade)
         {
-            if(cidade != null)
+            if(cidade != null && await CheckIfExists(cidade.Nome))
             {
                 var cidadeModel = await _repository.GetByName(cidade.Nome);
                 if(DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
