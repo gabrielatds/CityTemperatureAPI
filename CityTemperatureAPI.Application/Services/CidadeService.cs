@@ -14,12 +14,12 @@ namespace CityTemperatureAPI.Services
 {
     public class CidadeService : ICidadeService
     {
-        private readonly ICidadeRepository _repository;
+        private readonly ICidadeRepository _cidadeRepository;
         private readonly IMapper _mapper;
 
         public CidadeService(ICidadeRepository repository, IMapper mapper)
         {
-            _repository = repository;
+            _cidadeRepository = repository;
             _mapper = mapper;
         }
         public async Task<int> Add(CidadeDto cidade)
@@ -30,7 +30,7 @@ namespace CityTemperatureAPI.Services
                 {
                     var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
                     cidadeModel.LastConsult = DateTime.Now;
-                    return await _repository.Add(cidadeModel);
+                    return await _cidadeRepository.Add(cidadeModel);
                 }
                 catch (Exception ex)
                 {
@@ -47,7 +47,7 @@ namespace CityTemperatureAPI.Services
         {
             try
             {
-                return await _repository.CheckIfExists(name);
+                return await _cidadeRepository.CheckIfExists(name);
             }
             catch (Exception ex)
             {
@@ -93,7 +93,7 @@ namespace CityTemperatureAPI.Services
                 }
                 else
                 {
-                    var cidadeModel = await _repository.GetByName(nome);
+                    var cidadeModel = await _cidadeRepository.GetByName(nome);
                     var mainTemperatures = new Main
                     {
                         Temp = cidadeModel.TempAtual,
@@ -115,9 +115,9 @@ namespace CityTemperatureAPI.Services
 
             try
             {
-                var cidadeModel = await _repository.GetByName(cidade.Nome);
+                var cidadeModel = await _cidadeRepository.GetByName(cidade.Nome);
                 cidadeModel.LastConsult = DateTime.Now;
-                return await _repository.Update(cidadeModel);
+                return await _cidadeRepository.Update(cidadeModel);
             }
             catch (Exception ex)
             {
@@ -132,7 +132,7 @@ namespace CityTemperatureAPI.Services
             {
                 if (await CheckIfExists(nome))
                 {
-                    var cidadeModel = await _repository.GetByName(nome);
+                    var cidadeModel = await _cidadeRepository.GetByName(nome);
                     if (DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
                     {
                         return true;

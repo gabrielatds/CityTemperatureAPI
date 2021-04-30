@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -68,10 +69,7 @@ namespace CityTemperatureAPI
             });
 
             services.AddControllers();
-            services.AddAutoMapper(typeof(MappingProfile));
-            //Injeção de dependência
-            services.AddScoped<ICidadeRepository, CidadeRepository>();
-            services.AddScoped<ICidadeService, CidadeService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +102,21 @@ namespace CityTemperatureAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// Registra os servicos especificos da API.
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureApiServices(
+            IServiceCollection services)
+        {
+            services.AddAutoMapper(
+                typeof(MappingProfile));
+
+
+            services.AddInfraestructure();
+            services.AddApplication();
         }
     }
 }
