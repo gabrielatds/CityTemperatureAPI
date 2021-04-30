@@ -22,38 +22,98 @@ namespace CityTemperatureAPI.Services
         }
         public async Task<int> Add(CidadeDto cidade)
         {
-            if(cidade != null)
+            if (cidade != null)
             {
-                var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
-                return await _repository.Add(cidadeModel);
+                try
+                {
+                    var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
+                    cidadeModel.LastConsult = DateTime.Now;
+                    return await _repository.Add(cidadeModel);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentNullException();
             }
         }
 
         public async Task<bool> CheckIfExists(int id)
         {
-            return await _repository.CheckIfExists(id);
+            try
+            {
+                return await _repository.CheckIfExists(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public async Task<CidadeDto> GetyName(string nome)
+        public async Task<CidadeDto> GetByName(string nome)
         {
-            var cidadeModel = await _repository.GetyName(nome);
-            var cidadeDto = _mapper.Map<Cidade, CidadeDto>(cidadeModel);
-            return cidadeDto;
+            if(nome.Length > 0)
+            {
+                try
+                {
+                    var cidadeModel = await _repository.GetByName(nome);
+                    var cidadeDto = _mapper.Map<Cidade, CidadeDto>(cidadeModel);
+                    return cidadeDto;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         public async Task<int> Update(CidadeDto cidade)
         {
-            var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
-            return await _repository.Update(cidadeModel);
+            if (cidade != null)
+            {
+                try
+                {
+                    var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
+                    cidadeModel.LastConsult = DateTime.Now;
+                    return await _repository.Update(cidadeModel);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
-        public async Task<int> VerifyLastConsult(CidadeDto cidade)
+        public async Task<bool> VerifyLastConsult(CidadeDto cidade)
         {
-            throw new NotImplementedException();
+            if(cidade != null)
+            {
+                var cidadeModel = await _repository.GetByName(cidade.Nome);
+                if(DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
     }
 }

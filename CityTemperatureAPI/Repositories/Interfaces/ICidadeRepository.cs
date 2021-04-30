@@ -8,7 +8,7 @@ namespace CityTemperatureAPI.Repositories.Interfaces
 {
     public interface ICidadeRepository
     {
-        Task<Cidade> GetyName(string nome);
+        Task<Cidade> GetByName(string nome);
         Task<int> Add(Cidade cidade);
         Task<int> Update(Cidade cidade);
         Task<bool> CheckIfExists(int id);

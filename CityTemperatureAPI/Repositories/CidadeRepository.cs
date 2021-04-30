@@ -21,7 +21,7 @@ namespace CityTemperatureAPI.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<Cidade> GetyName(string nome)
+        public async Task<Cidade> GetByName(string nome)
         {
             return await _context.Cidades.Where(a => a.Nome == nome).FirstOrDefaultAsync();
         }
