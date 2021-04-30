@@ -10,8 +10,9 @@ namespace CityTemperatureAPI.Dtos
     {
         public int? Id { get; set; }
         public string Nome { get; set; }
-        [JsonProperty("main")]
-        public Main Main { get; set; }
+        public decimal TempAtual { get; set; }
+        public decimal TempMax { get; set; }
+        public decimal TempMin { get; set; }
         public DateTime LastConsult { get; set; }
     }
 }

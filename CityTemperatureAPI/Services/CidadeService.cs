@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using CityTemperatureAPI.Adapters;
 using CityTemperatureAPI.Dtos;
 using CityTemperatureAPI.Models;
 using CityTemperatureAPI.Repositories.Interfaces;
 using CityTemperatureAPI.Services.Interfaces;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,20 +55,40 @@ namespace CityTemperatureAPI.Services
             }
         }
 
-        public async Task<CidadeDto> GetByName(string nome)
+        public async Task<Main> GetByName(string nome)
         {
-            if(nome.Length > 0 && await CheckIfExists(nome))
+            if (!string.IsNullOrEmpty(nome))
             {
-                try
+                var cidadeAdapter = RestService.For<ICidadeAdapter>("http://api.openweathermap.org/data/2.5");
+                var response = await cidadeAdapter.GetByName(nome);
+                var mainTemperatures = response.Main;
+
+                if (mainTemperatures != null)
                 {
-                    var cidadeModel = await _repository.GetByName(nome);
-                    var cidadeDto = _mapper.Map<Cidade, CidadeDto>(cidadeModel);
-                    return cidadeDto;
+                    var cidadeDto = new CidadeDto
+                    {
+                        Nome = nome,
+                        TempAtual = mainTemperatures.Temp,
+                        TempMax = mainTemperatures.Temp_Max,
+                        TempMin = mainTemperatures.Temp_Min,
+                    };
+
+                    if (await CheckIfExists(nome))
+                    {
+                        await Update(cidadeDto);
+                    }
+                    else
+                    {
+                        await Add(cidadeDto);
+                    }
+
+                    return mainTemperatures;
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw new Exception(ex.Message);
+                    throw new ArgumentNullException();
                 }
+
             }
             else
             {
@@ -97,10 +119,10 @@ namespace CityTemperatureAPI.Services
 
         public async Task<bool> VerifyLastConsult(CidadeDto cidade)
         {
-            if(cidade != null && await CheckIfExists(cidade.Nome))
+            if (cidade != null && await CheckIfExists(cidade.Nome))
             {
                 var cidadeModel = await _repository.GetByName(cidade.Nome);
-                if(DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
+                if (DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
                 {
                     return true;
                 }

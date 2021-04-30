@@ -10,6 +10,6 @@ namespace CityTemperatureAPI.Adapters
     public interface ICidadeAdapter
     {
         [Get("/weather?q={nome}&APPID=08747a996d78d3b53f05481d16a707d2")]
-        Task<CidadeDto> GetByName(string nome);
+        Task<OpenWeatherApiResponse> GetByName(string nome);
     }
 }

@@ -1,10 +1,5 @@
-﻿using CityTemperatureAPI.Adapters;
-using CityTemperatureAPI.Services.Interfaces;
+﻿using CityTemperatureAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Refit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CityTemperatureAPI.Controllers
@@ -13,30 +8,23 @@ namespace CityTemperatureAPI.Controllers
     [Route("[controller]")]
     public class CidadeController : ControllerBase
     {
-        private readonly ICidadeService _service;
+        private readonly ICidadeService _cidadeService;
 
-        public CidadeController(ICidadeService service)
+        public CidadeController(ICidadeService cidadeService)
         {
-            _service = service;
+            _cidadeService = cidadeService;
         }
 
+        /// <summary>
+        /// Busca a cidade pelo nome e retorna as temperaturas
+        /// </summary>
+        /// <param name="nome"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetByName(string nome)
         {
-            try
-            {
-                var cidadeAdapter = RestService.For<ICidadeAdapter>("http://api.openweathermap.org/data/2.5");
-                var cidadeDto = await cidadeAdapter.GetByName(nome);
-
-
-
-                return Ok(cidadeDto.Main);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-            
+            var mainTempreatures = await _cidadeService.GetByName(nome);
+            return Ok(mainTempreatures);
         }
     }
 }
