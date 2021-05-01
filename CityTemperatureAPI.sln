@@ -7,17 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI", "CityT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Core", "0 - Core", "{3D5ACF52-82BA-4629-9AA1-E4C4886E5838}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperatureAPI.Application", "CityTemperatureAPI.Application\CityTemperatureAPI.Application.csproj", "{AA511A55-C2FF-4CD7-A1FD-8BB2C6E2A4EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI.Application", "CityTemperatureAPI.Application\CityTemperatureAPI.Application.csproj", "{AA511A55-C2FF-4CD7-A1FD-8BB2C6E2A4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperatureAPI.Domain", "CityTemperatureAPI.Domain\CityTemperatureAPI.Domain.csproj", "{49F6BF5B-77D1-44FB-AD23-1C32584A7776}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI.Domain", "CityTemperatureAPI.Domain\CityTemperatureAPI.Domain.csproj", "{49F6BF5B-77D1-44FB-AD23-1C32584A7776}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Infra", "1 - Infra", "{2C8E415B-81D5-4DB1-B2C9-E482194EDA0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperatureAPI.Infraestructure", "CityTemperatureAPI.Infraestructure\CityTemperatureAPI.Infraestructure.csproj", "{E9A42489-CF22-4AE2-9ED3-CE20E470A7B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperatureAPI.Infraestructure", "CityTemperatureAPI.Infraestructure\CityTemperatureAPI.Infraestructure.csproj", "{E9A42489-CF22-4AE2-9ED3-CE20E470A7B7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - UI", "2 - UI", "{2297C615-F302-4FD0-9224-148F2B521841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperature.UI", "CityTemperature.UI\CityTemperature.UI.csproj", "{88629D9A-11E3-4E76-BEA7-5548050C80B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityTemperature.UI", "CityTemperature.UI\CityTemperature.UI.csproj", "{88629D9A-11E3-4E76-BEA7-5548050C80B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Tests", "3 - Tests", "{B10EAC79-7420-4FF2-84D6-6E077B9F58BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityTemperatureAPI.Tests", "CityTemperatureAPI.Tests\CityTemperatureAPI.Tests.csproj", "{0D3C0783-55B3-492A-A650-EA92503FC82C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,10 @@ Global
 		{88629D9A-11E3-4E76-BEA7-5548050C80B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88629D9A-11E3-4E76-BEA7-5548050C80B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88629D9A-11E3-4E76-BEA7-5548050C80B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D3C0783-55B3-492A-A650-EA92503FC82C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D3C0783-55B3-492A-A650-EA92503FC82C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D3C0783-55B3-492A-A650-EA92503FC82C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D3C0783-55B3-492A-A650-EA92503FC82C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +62,7 @@ Global
 		{49F6BF5B-77D1-44FB-AD23-1C32584A7776} = {3D5ACF52-82BA-4629-9AA1-E4C4886E5838}
 		{E9A42489-CF22-4AE2-9ED3-CE20E470A7B7} = {2C8E415B-81D5-4DB1-B2C9-E482194EDA0B}
 		{88629D9A-11E3-4E76-BEA7-5548050C80B1} = {2297C615-F302-4FD0-9224-148F2B521841}
+		{0D3C0783-55B3-492A-A650-EA92503FC82C} = {B10EAC79-7420-4FF2-84D6-6E077B9F58BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E2F1FB9-3AA4-4BD3-9A1C-F8E156612D50}
