@@ -4,37 +4,47 @@ using CityTemperatureAPI.Dtos;
 using CityTemperatureAPI.Models;
 using CityTemperatureAPI.Repositories.Interfaces;
 using CityTemperatureAPI.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Refit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CityTemperatureAPI.Services
 {
     public class CidadeService : ICidadeService
     {
-        private readonly ICidadeRepository _repository;
+        private readonly ICidadeRepository _cidadeRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public CidadeService(ICidadeRepository repository, IMapper mapper)
+        public CidadeService(ICidadeRepository repository, IMapper mapper, IConfiguration config)
         {
-            _repository = repository;
+            _cidadeRepository = repository;
             _mapper = mapper;
+            _config = config;
         }
-        public async Task<int> Add(CidadeDto cidade)
+        public async Task<int> Add(CidadeDto cidadeDto)
         {
-            if (cidade != null)
+            if (cidadeDto != null && cidadeDto.Nome != null)
             {
-                try
+                if(await CheckIfExists(cidadeDto.Nome))
                 {
-                    var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidade);
-                    cidadeModel.LastConsult = DateTime.Now;
-                    return await _repository.Add(cidadeModel);
+                    throw new ArgumentException();
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw new Exception(ex.Message);
+                    try
+                    {
+                        var cidadeModel = _mapper.Map<CidadeDto, Cidade>(cidadeDto);
+                        cidadeModel.LastConsult = DateTime.Now;
+
+                        return await _cidadeRepository.Add(cidadeModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                    
                 }
             }
             else
@@ -45,14 +55,23 @@ namespace CityTemperatureAPI.Services
 
         public async Task<bool> CheckIfExists(string name)
         {
-            try
+            if (!string.IsNullOrEmpty(name))
             {
-                return await _repository.CheckIfExists(name);
+                try
+                {
+                    var result = await _cidadeRepository.CheckIfExists(name);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception(ex.Message);
+                throw new ArgumentNullException();
             }
+            
         }
 
         public async Task<Main> GetByName(string nome)
@@ -61,7 +80,8 @@ namespace CityTemperatureAPI.Services
             {
                 if (await VerifyLastConsult(nome))
                 {
-                    var cidadeAdapter = RestService.For<ICidadeAdapter>("http://api.openweathermap.org/data/2.5");
+                    var baseUrl = _config.GetValue<string>("ApplicationConfiguration:OpenWeatherApiBaseUrl");
+                    var cidadeAdapter = RestService.For<ICidadeAdapter>(baseUrl);
                     var response = await cidadeAdapter.GetByName(nome);
                     var mainTemperatures = response.Main;
 
@@ -93,7 +113,7 @@ namespace CityTemperatureAPI.Services
                 }
                 else
                 {
-                    var cidadeModel = await _repository.GetByName(nome);
+                    var cidadeModel = await _cidadeRepository.GetByName(nome);
                     var mainTemperatures = new Main
                     {
                         Temp = cidadeModel.TempAtual,
@@ -110,20 +130,32 @@ namespace CityTemperatureAPI.Services
             }
         }
 
-        public async Task<int> Update(CidadeDto cidade)
+        public async Task<int> Update(CidadeDto cidadeDto)
         {
-
-            try
+            if (cidadeDto != null && cidadeDto.Nome != null)
             {
-                var cidadeModel = await _repository.GetByName(cidade.Nome);
-                cidadeModel.LastConsult = DateTime.Now;
-                return await _repository.Update(cidadeModel);
+                if (await CheckIfExists(cidadeDto.Nome))
+                {
+                    try
+                    {
+                        var cidadeModel = await _cidadeRepository.GetByName(cidadeDto.Nome);
+                        cidadeModel.LastConsult = DateTime.Now;
+                        return await _cidadeRepository.Update(cidadeModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception(ex.Message);
+                throw new ArgumentNullException();
             }
-
         }
 
         public async Task<bool> VerifyLastConsult(string nome)
@@ -132,8 +164,13 @@ namespace CityTemperatureAPI.Services
             {
                 if (await CheckIfExists(nome))
                 {
-                    var cidadeModel = await _repository.GetByName(nome);
-                    if (DateTime.Now.Minute - cidadeModel.LastConsult.Minute > 20)
+                    var cidadeModel = await _cidadeRepository.GetByName(nome);
+                    var nowDate = DateTime.Now;
+                    var lastConsultDate = cidadeModel.LastConsult;
+                    var timeSpanDifference = nowDate - lastConsultDate;
+                    var totalMinuts = timeSpanDifference.TotalMinutes;
+
+                    if (totalMinuts >= 20)
                     {
                         return true;
                     }

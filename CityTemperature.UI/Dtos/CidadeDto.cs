@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CityTemperatureAPI.Models
+namespace CityTemperatureAPI.Dtos
 {
-    public class Cidade
+    public class CidadeDto
     {
-        public int Id { get; set; }
-        public  string Nome { get; set; }
+        public int? Id { get; set; }
+        public string Nome { get; set; }
         public decimal TempAtual { get; set; }
         public decimal TempMax { get; set; }
         public decimal TempMin { get; set; }

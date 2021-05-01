@@ -1,23 +1,16 @@
-using CityTemperatureAPI.Repositories;
-using CityTemperatureAPI.Repositories.Interfaces;
+using CityTemperatureAPI.Infraestructure.Utils;
 using CityTemperatureAPI.Services;
-using CityTemperatureAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace CityTemperatureAPI
 {
@@ -35,22 +28,13 @@ namespace CityTemperatureAPI
         {
             services.AddDbContext<CityTemperatureAPIContext>(opcoes => opcoes.UseSqlServer(Configuration.GetConnectionString("CityTemperatureAPIDB")));
 
-            // Auto Mapper Configurations
-            //var mapperConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile<MappingProfile>();
-            //});
-
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "WiPro API",
+                    Title = "CityTemperature API",
                     Description = "Teste Back-End Jr.",
                     Contact = new OpenApiContact
                     {
@@ -64,14 +48,13 @@ namespace CityTemperatureAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
                 c.CustomSchemaIds(i => i.FullName);
-
             });
 
+            services.AddAutoMapper(
+                typeof(MappingProfile));
+            RegisterDI.ConfigureServices(services);
             services.AddControllers();
-            services.AddAutoMapper(typeof(MappingProfile));
-            //Injeção de dependência
-            services.AddScoped<ICidadeRepository, CidadeRepository>();
-            services.AddScoped<ICidadeService, CidadeService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +87,21 @@ namespace CityTemperatureAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// Registra os servicos especificos da API.
+        /// </summary>
+        /// <param name="services"></param>
+        [ExcludeFromCodeCoverage]
+        public void ConfigureApiServices(
+            IServiceCollection services)
+        {
+
+
+
+            services.AddInfraestructure();
+            services.AddApplication();
         }
     }
 }
