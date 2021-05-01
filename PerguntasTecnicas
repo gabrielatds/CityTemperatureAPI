@@ -1,0 +1,17 @@
+## Perguntas Técnicas
+
+#Pergunta 1 - Quanto tempo você usou para completar a solução apresentada? O que você faria se tivesse mais tempo?
+*Gastei cerca de 6 horas para fazer a solução.
+*Se tivesse mais tempo poderia ter feito melhor os testes unitários, testado todos os métodos, faria um middleware para interceptação *dos erros dos serviços e não ter que fazer 
+*muitos "Try-Catchs", poderia utilizar JWT para autenticação e uma página SPA com Angular como UI.
+
+#Pergunta 2 - Se usou algum framework, qual foi o motivo de ter usado este? Caso contrário, por que não utilizou nenhum?
+*Vou listar abaixo os frameworks que utilizei e explicar o porquê de cada um:
+*1 EntityFrameworkCore: Utilizei este ORM para comunicação / persistência dos dados num banco pois acredito que é simples de se utilizar, economiza muito tempo e é o que mais tenho experiência.
+*2 Refit: Utilizei Refit para consumir os dados da API terceira, pois economiza código e torna a solução mais limpa.
+*3 AutoMapper: Utilizei AutoMapper pois facilita muito na conversão de um objeto para outro, por exemplo na conversão de DTOs (Data Transfer Objects da camada de UI) para Models.
+*4 XUnit: Acho que é a principal ferramente de testes unitários com C#/.NET.
+
+*Fiz a aplicação toda utilizando SQL Server, e só depois vi que era pra utilizar MySQL. Acredito que no projeto não há diferença no que seria feito, pois a única diferença seria
+*utilizar o pacote PomeloEntityCore para conectar o MySQL, mudando a linha de conexão na Startup.
+
