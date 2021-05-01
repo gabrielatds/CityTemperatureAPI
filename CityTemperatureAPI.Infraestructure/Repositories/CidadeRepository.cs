@@ -8,7 +8,11 @@ namespace CityTemperatureAPI.Repositories
 {
     public class CidadeRepository : ICidadeRepository
     {
-        private readonly CityTemperatureAPIContext _context;
+        protected CityTemperatureAPIContext _context;
+
+        public CidadeRepository()
+        {
+        }
         public CidadeRepository(CityTemperatureAPIContext context)
         {
             _context = context;

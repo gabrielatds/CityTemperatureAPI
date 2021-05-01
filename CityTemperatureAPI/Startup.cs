@@ -1,3 +1,4 @@
+using CityTemperatureAPI.Infraestructure.Utils;
 using CityTemperatureAPI.Repositories;
 using CityTemperatureAPI.Repositories.Interfaces;
 using CityTemperatureAPI.Services;
@@ -36,22 +37,13 @@ namespace CityTemperatureAPI
         {
             services.AddDbContext<CityTemperatureAPIContext>(opcoes => opcoes.UseSqlServer(Configuration.GetConnectionString("CityTemperatureAPIDB")));
 
-            // Auto Mapper Configurations
-            //var mapperConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile<MappingProfile>();
-            //});
-
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "WiPro API",
+                    Title = "CityTemperature API",
                     Description = "Teste Back-End Jr.",
                     Contact = new OpenApiContact
                     {
@@ -65,9 +57,11 @@ namespace CityTemperatureAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
                 c.CustomSchemaIds(i => i.FullName);
-
             });
 
+            services.AddAutoMapper(
+                typeof(MappingProfile));
+            RegisterDI.ConfigureServices(services);
             services.AddControllers();
             
         }
@@ -108,11 +102,11 @@ namespace CityTemperatureAPI
         /// Registra os servicos especificos da API.
         /// </summary>
         /// <param name="services"></param>
+        [ExcludeFromCodeCoverage]
         public void ConfigureApiServices(
             IServiceCollection services)
         {
-            services.AddAutoMapper(
-                typeof(MappingProfile));
+
 
 
             services.AddInfraestructure();

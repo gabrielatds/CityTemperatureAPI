@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CityTemperatureAPI.Application\CityTemperatureAPI.Application.csproj" />
     <ProjectReference Include="..\CityTemperatureAPI.Domain\CityTemperatureAPI.Domain.csproj" />
   </ItemGroup>
 
